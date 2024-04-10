@@ -1,0 +1,1 @@
+Render plantuml diagram [here](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/mdw-nl/strata-fit-data-schema/main/schema.plantuml?token=GHSAT0AAAAAACOQ7ZE3E2I2RC45HGDD2YUOZQWXBYQ)
