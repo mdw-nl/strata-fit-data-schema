@@ -1,3 +1,0 @@
-date_of_visit,date_of_birth,sex,date_of_RA_diagnosis,RF_positivity,anti_CCP_positivity,DAS28_ESR,patient_global,patient_pain,physician_global,CRP,ESR,SJC28,TJC28,concomitant_csDMARDs,type_of_concomitant_csDMARD,dose_of_concomitant_csDMARDs,N_previous_csDMARDs,current_bDMARD_type,start_date_current_bDMARD,stop_date_current_bDMARD,if_stop_reason,current_tsDMARD_type,start_date_current_tsDMARD,stop_date_current_tsDMARD,if_stop_reason,EQ5D,HAQ
-2022-09-12,1980-06-15,1,2019-03-10,1,1,2.8,50,40,45,1.2,20,2,3,1,1,10,2,1,2021-09-10,,1,2,2021-09-12,,2,2,1.5
-2022-09-13,1985-07-20,0,2020-04-12,0,1,3.1,60,50,50,0.8,30,3,4,1,2,20,1,2,2020-10-14,,3,1,2020-10-16,2021-01-20,1,1.8,2

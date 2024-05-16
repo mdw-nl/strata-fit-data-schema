@@ -1,59 +1,54 @@
+from pydantic import BaseModel, Field, validator
 from datetime import date
 from typing import Optional
-from pydantic import BaseModel, validator, Field
-from pydantic import conint, confloat, constr
 
-class Patient(BaseModel):
-    date_of_visit: date = Field(...)
-    date_of_birth: date = Field(...)
-    sex: conint(ge=0, le=1) = Field(...)
-    date_of_RA_diagnosis: date = Field(...)
-    
-    @validator('date_of_birth', 'date_of_RA_diagnosis', pre=True)
-    def date_not_in_future(cls, v, values, **kwargs):
-        if v > date.today():
-            raise ValueError(f"{values['field']} must not be in the future")
-        return v
+class ValidationDetail(BaseModel):
+    field: str
+    message: str
+    error_type: str
+    input_value: str
 
-class ClinicalAssessment(BaseModel):
-    RF_positivity: conint(ge=0, le=1) = Field(...)
-    anti_CCP_positivity: conint(ge=0, le=1) = Field(...)
-    DAS28_ESR: confloat(ge=0) = Field(...)
-    patient_global: confloat(ge=0, le=100) = Field(...)
-    patient_pain: confloat(ge=0, le=100) = Field(...)
-    physician_global: confloat(ge=0, le=100) = Field(...)
-    CRP: confloat(ge=0) = Field(...)
-    ESR: conint(ge=0) = Field(...)
-    SJC28: conint(ge=0, le=28) = Field(...)
-    TJC28: conint(ge=0, le=28) = Field(...)
+class ValidationReport(BaseModel):
+    errors: Optional[list[ValidationDetail]] = None
 
-class Treatment(BaseModel):
-    concomitant_csDMARDs: conint(ge=0, le=1) = Field(...)
-    type_of_concomitant_csDMARD: Optional[conint(ge=1, le=5)] = Field(default=None)
-    dose_of_concomitant_csDMARDs: Optional[confloat(ge=0)] = Field(default=None)
-    N_previous_csDMARDs: conint(ge=0) = Field(...)
+class PatientData(BaseModel):
+    date_of_visit: date = Field(..., example="2024-01-01")
+    date_of_birth: date = Field(..., example="1980-12-01")
+    sex: int = Field(..., ge=0, le=1, example=1)
+    date_of_RA_diagnosis: date = Field(..., example="2010-01-01")
+    RF_positivity: int = Field(..., ge=0, le=1, example=1)
+    anti_CCP_positivity: int = Field(..., ge=0, le=1, example=0)
+    DAS28_ESR: float = Field(..., example=2.5)
+    patient_global: float = Field(..., ge=0, le=100, example=75.0)
+    patient_pain: float = Field(..., ge=0, le=100, example=65.0)
+    physician_global: float = Field(..., ge=0, le=100, example=70.0)
+    CRP: float = Field(..., example=1.2)
+    ESR: int = Field(..., example=20)
+    SJC28: int = Field(..., ge=0, le=28, example=4)
+    TJC28: int = Field(..., ge=0, le=28, example=6)
+    concomitant_csDMARDs: int = Field(..., ge=0, le=1, example=1)
+    type_of_concomitant_csDMARD: Optional[int] = Field(None, ge=1, le=5, example=3)
+    dose_of_concomitant_csDMARDs: Optional[float] = Field(None, example=50.0)
+    N_previous_csDMARDs: int = Field(..., example=2)
+    current_bDMARD_type: Optional[int] = Field(None, ge=1, le=5, example=2)
+    start_date_current_bDMARD: Optional[date] = Field(None, example="2023-01-01")
+    stop_date_current_bDMARD: Optional[date] = Field(None, example="2024-01-01")
+    if_stop_reason: Optional[int] = Field(None, ge=1, le=4, example=1)
+    number_of_prior_bDMARDs: Optional[int] = Field(None, example=1)
+    current_tsDMARD_type: Optional[int] = Field(None, ge=1, le=4, example=4)
+    start_date_current_tsDMARD: Optional[date] = Field(None, example="2023-02-01")
+    stop_date_current_tsDMARD: Optional[date] = Field(None, example="2024-02-01")
+    if_stop_reason_tsDMARD: Optional[int] = Field(None, ge=1, le=4, example=2)
+    number_of_prior_tsDMARDs: Optional[int] = Field(None, example=3)
+    concomitant_GCs: Optional[int] = Field(None, ge=0, le=1, example=0)
+    type_of_concomitant_GCs: Optional[str] = Field(None, example="Prednisone")
+    dose_of_concomitant_GCs: Optional[float] = Field(None, example=5.0)
+    EQ5D: Optional[float] = Field(None, example=0.85)
+    HAQ: Optional[float] = Field(None, ge=0, le=3, example=1.25)
 
-class bDMARDTreatment(BaseModel):
-    current_bDMARD_type: conint(ge=1, le=5) = Field(...)
-    start_date_current_bDMARD: date = Field(...)
-    stop_date_current_bDMARD: Optional[date] = Field(default=None)
-    if_stop_reason: Optional[conint(ge=1, le=4)] = Field(default=None)
-    
-    @validator('stop_date_current_bDMARD', pre=True)
-    def stop_date_after_start_date(cls, v, values, **kwargs):
-        if 'start_date_current_bDMARD' in values and v is not None:
-            if v < values['start_date_current_bDMARD']:
-                raise ValueError("stop_date must be after start_date")
-        return v
-
-class tsDMARDTreatment(BaseModel):
-    current_tsDMARD_type: conint(ge=1, le=4) = Field(...)
-    start_date_current_tsDMARD: date = Field(...)
-    stop_date_current_tsDMARD: Optional[date] = Field(default=None)
-    if_stop_reason: Optional[conint(ge=1, le=4)] = Field(default=None)
-
-    # Similar validator as for bDMARDTreatment can be applied here
-
-class PatientReportedOutcomes(BaseModel):
-    EQ5D: Optional[confloat(ge=0)] = Field(default=None)
-    HAQ: Optional[confloat(ge=0, le=3)] = Field(default=None)
+    # @validator('stop_date_current_bDMARD', 'stop_date_current_tsDMARD', pre=True, always=True)
+    # def check_stop_date_after_start_date(cls, v, values, field):
+    #     start_field = 'start_date_current_bDMARD' if 'bDMARD' in field else 'start_date_current_tsDMARD'
+    #     if v and values.get(start_field) and v < values[start_field]:
+    #         raise ValueError(f"{field} must be after the corresponding start date")
+    #     return v
