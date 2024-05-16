@@ -1,0 +1,6 @@
+---
+openapi:
+    title: STRATA-FIT Data Validation APP
+    description: |
+        This is a validation implementation app. Settings can be accessed in `settings.yaml`.
+    version: 0.0.1
