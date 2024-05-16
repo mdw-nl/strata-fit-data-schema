@@ -1,4 +1,6 @@
+dynaconf
 fastapi
+gunicorn
 uvicorn
 pandas
 pydantic

@@ -2,13 +2,19 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from typing import List, Optional
 import pandas as pd
-from pydantic import BaseModel, ValidationError
-import io  # Import io module
+import io
+
+from config.config import settings
 from schema import ValidationReport
-import logic  # Ensure the logic.py is module friendly and accessible
+import logic
 
-app = FastAPI()
 
+app = FastAPI(
+    title=settings.openapi.title,
+    description=settings.openapi.description,
+    version=settings.openapi.version,
+    lifespan=None
+)
 
 
 @app.post("/validate", response_model=ValidationReport)
