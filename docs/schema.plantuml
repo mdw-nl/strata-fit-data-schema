@@ -1,0 +1,235 @@
+@startuml
+!theme plain
+
+'Patient Information@startuml
+!theme plain
+
+'Patient Information
+namespace Patient {
+  class "Date of Visit" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "Date of Birth" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "Sex" {
+    "Gender" | "categorical[0 (male), 1 (female)]"
+  }
+  class "Date of RA Diagnosis" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+}
+
+'Clinical Assessment
+namespace ClinicalAssessment {
+  class "RF Positivity" {
+    "RF" | "categorical[0 (negative), 1 (positive)]"
+  }
+  class "anti-CCP Positivity" {
+    "anti-CCP" | "categorical[0 (negative), 1 (positive)]"
+  }
+  class "DAS28-ESR" {
+    "Score" | "numeric[0.00 - (∞), 2 decimals]"
+  }
+  class "Patient Global" {
+    "VAS Scale" | "numeric[0 - 100 mm]"
+  }
+  class "Patient Pain" {
+    "VAS Scale" | "numeric[0 - 100 mm]"
+  }
+  class "Physician Global" {
+    "VAS Scale" | "numeric[0 - 100 mm]"
+  }
+  class "CRP" {
+    "CRP in mg/dl" | "numeric[0.0 - (∞), 1 decimal]"
+  }
+  class "ESR" {
+    "mm/hr" | "numeric[0 - (∞), 0 decimals]"
+  }
+  class "SJC28" {
+    "Count" | "numeric[0 - 28]"
+  }
+  class "TJC28" {
+    "Count" | "numeric[0 - 28]"
+  }
+}
+
+'Treatment Details
+namespace TreatmentOptions {
+  class "concomitant csDMARDs" {
+    "Yes/No" | "categorical[0 (no), 1 (yes)]"
+  }
+  class "type of concomitant csDMARD" {
+    "Type" | "categorical[1, 2, 3, 4, 5]"
+  }
+  class "dose of concomitant csDMARDs" {
+    "Dose in mg" | "numeric[0.0 - (∞), 1 decimal]"
+  }
+  class "N previous csDMARDs" {
+    "Number" | "numeric[0 - (∞)]"
+  }
+}
+
+'bDMARD Treatment Options
+namespace bDMARDs {
+  class "current bDMARD (type)" {
+    "Type" | "categorical[1, 2, 3, 4, 5]"
+  }
+  class "start date current bDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "stop date current bDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "if stop, reason" {
+    "Reason" | "categorical[1, 2, 3, 4]"
+  }
+}
+
+'tsDMARD Treatment Options
+namespace tsDMARDs {
+  class "current tsDMARD (type)" {
+    "Type" | "categorical[1, 2, 3, 4]"
+  }
+  class "start date current tsDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "stop date current tsDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "if stop, reason" {
+    "Reason" | "categorical[1, 2, 3, 4]"
+  }
+}
+
+'Patient Reported Outcomes
+namespace Outcomes {
+  class "EQ5D" {
+    "Score" | "numeric[0 - (∞)]"
+  }
+  class "HAQ" {
+    "Score" | "numeric[0.00 - 3.00, 2 decimals]"
+  }
+}
+
+Patient .down.> ClinicalAssessment : "Undergoes"
+ClinicalAssessment .down.> TreatmentOptions : "Determines"
+TreatmentOptions .down.> bDMARDs : "May Include"
+TreatmentOptions .down.> tsDMARDs : "May Include"
+bDMARDs .down.> Outcomes : "Affects"
+tsDMARDs .down.> Outcomes : "Affects"
+@enduml
+namespace Patient {
+  class "Date of Visit" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "Date of Birth" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "Sex" {
+    "Gender" | "categorical[0 (male), 1 (female)]"
+  }
+  class "Date of RA Diagnosis" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+}
+
+'Clinical Assessment
+namespace ClinicalAssessment {
+  class "RF Positivity" {
+    "RF" | "categorical[0 (negative), 1 (positive)]"
+  }
+  class "anti-CCP Positivity" {
+    "anti-CCP" | "categorical[0 (negative), 1 (positive)]"
+  }
+  class "DAS28-ESR" {
+    "Score" | "numeric[0.00 - (∞), 2 decimals]"
+  }
+  class "Patient Global" {
+    "VAS Scale" | "numeric[0 - 100 mm]"
+  }
+  class "Patient Pain" {
+    "VAS Scale" | "numeric[0 - 100 mm]"
+  }
+  class "Physician Global" {
+    "VAS Scale" | "numeric[0 - 100 mm]"
+  }
+  class "CRP" {
+    "CRP in mg/dl" | "numeric[0.0 - (∞), 1 decimal]"
+  }
+  class "ESR" {
+    "mm/hr" | "numeric[0 - (∞), 0 decimals]"
+  }
+  class "SJC28" {
+    "Count" | "numeric[0 - 28]"
+  }
+  class "TJC28" {
+    "Count" | "numeric[0 - 28]"
+  }
+}
+
+'Treatment Details
+namespace TreatmentOptions {
+  class "concomitant csDMARDs" {
+    "Yes/No" | "categorical[0 (no), 1 (yes)]"
+  }
+  class "type of concomitant csDMARD" {
+    "Type" | "categorical[1, 2, 3, 4, 5]"
+  }
+  class "dose of concomitant csDMARDs" {
+    "Dose in mg" | "numeric[0.0 - (∞), 1 decimal]"
+  }
+  class "N previous csDMARDs" {
+    "Number" | "numeric[0 - (∞)]"
+  }
+}
+
+'bDMARD Treatment Options
+namespace bDMARDs {
+  class "current bDMARD (type)" {
+    "Type" | "categorical[1, 2, 3, 4, 5]"
+  }
+  class "start date current bDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "stop date current bDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "if stop, reason" {
+    "Reason" | "categorical[1, 2, 3, 4]"
+  }
+}
+
+'tsDMARD Treatment Options
+namespace tsDMARDs {
+  class "current tsDMARD (type)" {
+    "Type" | "categorical[1, 2, 3, 4]"
+  }
+  class "start date current tsDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "stop date current tsDMARD" {
+    "Date" | "datetime[dd/mm/yyyy]"
+  }
+  class "if stop, reason" {
+    "Reason" | "categorical[1, 2, 3, 4]"
+  }
+}
+
+'Patient Reported Outcomes
+namespace Outcomes {
+  class "EQ5D" {
+    "Score" | "numeric[0 - (∞)]"
+  }
+  class "HAQ" {
+    "Score" | "numeric[0.00 - 3.00, 2 decimals]"
+  }
+}
+
+Patient ..> ClinicalAssessment : "Undergoes"
+ClinicalAssessment ..> TreatmentOptions : "Determines"
+TreatmentOptions ..> bDMARDs : "May Include"
+TreatmentOptions ..> tsDMARDs : "May Include"
+bDMARDs ..> Outcomes : "Affects"
+tsDMARDs ..> Outcomes : "Affects"
+@enduml
