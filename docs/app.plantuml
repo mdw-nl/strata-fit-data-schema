@@ -1,0 +1,17 @@
+@startuml
+package "Strata-Fit Data Validation App" {
+    [FastAPI Application] as app
+    [Pydantic Models] as models
+    [CSV Files] as csv
+    [Logic Module] as logic
+
+    app --> models : validates against
+    csv --> app : upload
+    app --> logic : uses
+    logic --> models : uses
+}
+
+
+[User] --> app
+models --> [Validation Report]
+@enduml
