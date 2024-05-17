@@ -21,7 +21,7 @@ app = FastAPI(
 @app.get("/settings", tags=["Validation"])
 def get_settings():
     settings_file_path = settings.openapi.settings_path
-    if os.path.exists():
+    if os.path.exists(settings_file_path):
         return FileResponse(settings_file_path)
     else:
         return Response(content="Settings file not found.", status_code=404)
