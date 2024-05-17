@@ -1,8 +1,9 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 from datetime import date
-from typing import Optional
+from typing import Optional, Union
 
 class ValidationDetail(BaseModel):
+    row: Union[int, str]
     field: str
     message: str
     error_type: str
@@ -10,6 +11,7 @@ class ValidationDetail(BaseModel):
 
 class ValidationReport(BaseModel):
     errors: Optional[list[ValidationDetail]] = None
+
 
 class PatientData(BaseModel):
     date_of_visit: date = Field(..., example="2024-01-01")
@@ -45,10 +47,3 @@ class PatientData(BaseModel):
     dose_of_concomitant_GCs: Optional[float] = Field(None, example=5.0)
     EQ5D: Optional[float] = Field(None, example=0.85)
     HAQ: Optional[float] = Field(None, ge=0, le=3, example=1.25)
-
-    # @validator('stop_date_current_bDMARD', 'stop_date_current_tsDMARD', pre=True, always=True)
-    # def check_stop_date_after_start_date(cls, v, values, field):
-    #     start_field = 'start_date_current_bDMARD' if 'bDMARD' in field else 'start_date_current_tsDMARD'
-    #     if v and values.get(start_field) and v < values[start_field]:
-    #         raise ValueError(f"{field} must be after the corresponding start date")
-    #     return v
