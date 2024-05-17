@@ -2,5 +2,30 @@
 openapi:
     title: STRATA-FIT Data Validation APP
     description: |
-        This is a validation implementation app. Settings can be accessed in `settings.yaml`.
-    version: 0.0.1
+        ## STRATA-FIT Data Validation APP
+
+        This application validates CSV data for clinical information about rheumatoid arthritis (RA) patients.  
+        It ensures data quality and integrity based on predefined schemas.
+
+        ### Usage
+        - Use the `/validate` endpoint to upload and evaluate your data.
+        
+        - Ensure the app runs locally, so that no data is shared!
+
+        ### Endpoints
+        - **`/validate`**: Upload and validate your CSV file.
+        
+        - **`/settings`**: Access the current settings of the application.
+
+        ### Security
+        **Ensure that the app runs locally, so that no data is shared!**
+
+        Settings can be accessed via `/settings` request.
+    version: 0.0.2
+    settings_path: config/settings.yaml
+
+    contact:
+        name: MDW Support Team
+        url: https://www.medicaldataworks.nl/contact
+        email: info@medicaldataworks.nl
+
