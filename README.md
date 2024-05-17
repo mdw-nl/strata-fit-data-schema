@@ -12,7 +12,7 @@ The application supports file uploads through an API endpoint where users can su
 ![patient data](docs/patient_data.png)
 
 ## Usage
-### 1. Usage Locally
+### 1. Development Mode
 To run the application locally, follow these steps:
 
 #### Step 1: Install Dependencies
@@ -43,20 +43,20 @@ To run the application in a Docker container:
 Build an image named strata-fit-data-val:
 
 ```bash
-docker build -t strata-fit-data-val .
+docker pull ghcr.io/mdw-nl/strata-fit-data-val
 ```
 
 #### Step 2: Run the Docker Container
 Start a container named `strata-fit-data-validator` mapping the port `8000` inside the container to port `8080` on your host:
 
 ```bash
-docker run --name strata-fit-data-validator -p 8080:8000 strata-fit-data-val
+docker run --rm --name strata-fit-data-validator -p 8080:8000 ghcr.io/mdw-nl/strata-fit-data-val
 ```
-The application will be available at http://<YOUR_HOST>:8080.
+The application will be available at http://localhost:8080/docs.
 
 #### Step 3: Interact with the API
 Access the API through a web browser or use tools like curl or Postman to upload CSV files for validation:
 
 ```bash
-curl -F 'file=@path_to_your_file.csv' http://<YOUR_HOST>:8080/validate
+curl -F 'file=@path_to_your_file.csv' http://localhost:8080/validate
 ```
