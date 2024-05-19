@@ -1,3 +1,4 @@
+```plantuml
 @startuml
 package "Strata-Fit Data Validation App" {
     [FastAPI Application] as app
@@ -11,7 +12,10 @@ package "Strata-Fit Data Validation App" {
     logic --> models : uses
 }
 
-
 [User] --> app
 models --> [Validation Report]
+
+app --> [Docker Container] : runs in
+[User] --> [Docker Container] : interacts with
 @enduml
+```  
