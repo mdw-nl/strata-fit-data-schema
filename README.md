@@ -12,6 +12,10 @@ The application supports file uploads through an API endpoint where users can su
 ![patient data](docs/patient_data.png)
 
 ## Usage
+
+[![Watch the usage guide video](docs/loom-video-thumbnail.png)](https://www.loom.com/share/df44944e2711460a921164e201261044)
+
+
 ### 1. Development Mode
 To run the application locally, follow these steps:
 
