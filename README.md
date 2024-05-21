@@ -39,8 +39,8 @@ curl -F 'file=@path_to_your_file.csv' http://localhost:8000/validate
 ### 2. Dockerized Application
 To run the application in a Docker container:
 
-#### Step 1: Build the Docker Image
-Build an image named strata-fit-data-val:
+#### Step 1: Pull the Docker Image from the Registry
+Pull the latest docker image named strata-fit-data-val:
 
 ```bash
 docker pull ghcr.io/mdw-nl/strata-fit-data-val
@@ -55,7 +55,7 @@ docker run --rm --name strata-fit-data-validator -p 8080:8000 ghcr.io/mdw-nl/str
 The application will be available at http://localhost:8080/docs.
 
 #### Step 3: Interact with the API
-Access the API through a web browser or use tools like curl or Postman to upload CSV files for validation:
+Access the API through a [web browser](http://localhost:8080/docs) or use tools like curl or Postman to upload CSV files for validation:
 
 ```bash
 curl -F 'file=@path_to_your_file.csv' http://localhost:8080/validate
