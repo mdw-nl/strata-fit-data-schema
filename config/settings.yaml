@@ -1,4 +1,3 @@
----
 openapi:
     title: STRATA-FIT Data Validation APP
     description: |
@@ -21,7 +20,7 @@ openapi:
         **Ensure that the app runs locally, so that no data is shared!**
 
         Settings can be accessed via `/settings` request.
-    version: 0.0.3
+    version: 0.0.4
     settings_path: config/settings.yaml
 
     contact:
@@ -29,3 +28,34 @@ openapi:
         url: https://www.medicaldataworks.nl/contact
         email: info@medicaldataworks.nl
 
+schema:
+    pydantic:
+    error_messages:
+        date_of_birth:
+            - type: date
+              message: "Date of birth should be in the format: day/month/year."
+        sex:
+            - type: value_error.number.not_ge
+              message: "Sex should be at least 0."
+            - type: value_error.number.not_le
+              message: "Sex should be at most 1."
+        patient_global:
+            - type: value_error.number.not_ge
+              message: "Patient global score should be at least 0."
+            - type: value_error.number.not_le
+              message: "Patient global score should be at most 100."
+        RF_positivity:
+            - type: value_error.number.not_ge
+              message: "RF positivity should be at least 0."
+            - type: value_error.number.not_le
+              message: "RF positivity should be at most 1."
+        DAS28_ESR:
+            - type: value_error.number.not_ge
+              message: "DAS28-ESR should be at least 0."
+            - type: value_error.number.not_le
+              message: "DAS28-ESR should be at most 10.0."
+        if_stop_reason:
+            - type: value_error.number.not_ge
+              message: "Reason for stopping should be at least 1."
+            - type: value_error.number.not_le
+              message: "Reason for stopping should be at most 4."

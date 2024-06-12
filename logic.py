@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-import argparse
 from datetime import date
 from pydantic import ValidationError
 from schema import PatientData, ValidationDetail
+from config.config import settings
 
 def get_date_fields(model) -> list[str]:
     """Retrieve a list of field names where the type is datetime.date."""
@@ -27,22 +27,24 @@ def validate_csv(df):
             errors.extend(translated_errors)
     return len(errors) > 0, errors
 
-
 def translate_errors(errors, row):
-    descriptions = {
-        "date_of_birth": "Date of birth should be in the format: day/month/year.",
-        "sex": "Sex should be 0 for male or 1 for female.",
-        "patient_global": "Patient global score should be between 0 and 100.",
-        "RF_positivity": "RF positivity should be 0 for negative or 1 for positive.",
-        "DAS28_ESR": "DAS28-ESR should be a numeric value with up to 2 decimal places.",
-        "if_stop_reason": "Reason for stopping should be one of: 1 for inefficacy, 2 for intolerance, 3 for remission, 4 for other/unknown."
-    }
+    error_messages = settings.schema.error_messages
     readable_errors = []
     for error in errors:
         field = error['loc'][0]
-        message = descriptions.get(field, error['msg'])
         error_type = error['type']
         input_value = str(error.get('input', 'N/A'))  # Ensure value is a string for Pydantic compatibility
+
+        message = None
+        if field in error_messages:
+            for error_msg in error_messages[field]:
+                if error_msg['type'] == error_type:
+                    message = error_msg['message']
+                    break
+
+        if not message:
+            message = error['msg']
+
         validation_detail = ValidationDetail(
             row=row,
             field=field,

@@ -1,3 +1,7 @@
 __pycache__/
 data/
 .DS_Store
+
+# psi specific
+.psi-ignore
+report.md
