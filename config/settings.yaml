@@ -30,6 +30,139 @@ openapi:
 
 schema:
     pydantic:
+        PatientData:
+            date_of_visit:
+                type: "date"
+                example: "2024-01-01"
+            date_of_birth:
+                type: "date"
+                example: "1980-12-01"
+            sex:
+                type: "int"
+                ge: 0
+                le: 1
+                example: 1
+            date_of_RA_diagnosis:
+                type: "date"
+                example: "2010-01-01"
+            RF_positivity:
+                type: "int"
+                ge: 0
+                le: 1
+                example: 1
+            anti_CCP_positivity:
+                type: "int"
+                ge: 0
+                le: 1
+                example: 0
+            DAS28_ESR:
+                type: "float"
+                example: 2.5
+            patient_global:
+                type: "float"
+                ge: 0
+                le: 100
+                example: 75.0
+            patient_pain:
+                type: "float"
+                ge: 0
+                le: 100
+                example: 65.0
+            physician_global:
+                type: "float"
+                ge: 0
+                le: 100
+                example: 70.0
+            CRP:
+                type: "float"
+                example: 1.2
+            ESR:
+                type: "int"
+                example: 20
+            SJC28:
+                type: "int"
+                ge: 0
+                le: 28
+                example: 4
+            TJC28:
+                type: "int"
+                ge: 0
+                le: 28
+                example: 6
+            concomitant_csDMARDs:
+                type: "int"
+                ge: 0
+                le: 1
+                example: 1
+            type_of_concomitant_csDMARD:
+                type: "Optional[int]"
+                ge: 1
+                le: 5
+                example: 3
+            dose_of_concomitant_csDMARDs:
+                type: "Optional[float]"
+                example: 50.0
+            N_previous_csDMARDs:
+                type: "int"
+                example: 2
+            current_bDMARD_type:
+                type: "Optional[int]"
+                ge: 1
+                le: 5
+                example: 2
+            start_date_current_bDMARD:
+                type: "Optional[date]"
+                example: "2023-01-01"
+            stop_date_current_bDMARD:
+                type: "Optional[date]"
+                example: "2024-01-01"
+            if_stop_reason:
+                type: "Optional[int]"
+                ge: 1
+                le: 4
+                example: 1
+            number_of_prior_bDMARDs:
+                type: "Optional[int]"
+                ge: 0
+                example: 1
+            current_tsDMARD_type:
+                type: "Optional[int]"
+                ge: 1
+                le: 4
+                example: 4
+            start_date_current_tsDMARD:
+                type: "Optional[date]"
+                example: "2023-02-01"
+            stop_date_current_tsDMARD:
+                type: "Optional[date]"
+                example: "2024-02-01"
+            if_stop_reason_tsDMARD:
+                type: "Optional[int]"
+                ge: 1
+                le: 4
+                example: 2
+            number_of_prior_tsDMARDs:
+                type: "Optional[int]"
+                example: 3
+            concomitant_GCs:
+                type: "Optional[int]"
+                ge: 0
+                le: 1
+                example: 0
+            type_of_concomitant_GCs:
+                type: "Optional[str]"
+                example: "Prednisone"
+            dose_of_concomitant_GCs:
+                type: "Optional[float]"
+                example: 5.0
+            EQ5D:
+                type: "Optional[float]"
+                example: 0.85
+            HAQ:
+                type: "Optional[float]"
+                ge: 0
+                le: 3
+                example: 1.25
     error_messages:
         date_of_birth:
             - type: date
