@@ -6,7 +6,7 @@ import io
 import os
 
 from config.config import settings
-from schema import ValidationReport
+from schema import ValidationReport, PandasDelimeter
 import logic
 
 app = FastAPI(
@@ -23,19 +23,31 @@ def get_settings():
         return FileResponse(settings_file_path)
     else:
         return Response(content="Settings file not found.", status_code=404)
+    
+@app.get("/schema", tags=["Settings"])
+def get_schema():
+    schema_file_path = settings.openapi.schema_path
+    if os.path.exists(schema_file_path):
+        return FileResponse(schema_file_path)
+    else:
+        return Response(content="Data Schema file not found.", status_code=404)
+
 
 @lru_cache
 def get_models():
     return logic.load_data_models_from_settings()
 
 @app.post("/validate", tags=["Validation"])
-async def validate_csv_file(file: UploadFile = File(...), models: dict = Depends(get_models)):
+async def validate_csv_file(
+    file: UploadFile = File(...),
+    delimeter: PandasDelimeter = PandasDelimeter.COMMA,
+    models: dict = Depends(get_models)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Invalid file format. Please upload a CSV file.")
 
     try:
         data = await file.read()
-        df = pd.read_csv(io.StringIO(data.decode('utf-8')))
+        df = pd.read_csv(io.StringIO(data.decode('utf-8')), delimiter=delimeter.value)
         model_name = "PatientData"  # Example, you can dynamically determine this
         model = models[model_name]
         has_errors, errors = logic.validate_csv(df, model)

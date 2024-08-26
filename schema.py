@@ -1,3 +1,4 @@
+from enum import Enum
 from pydantic import BaseModel, Field
 from datetime import date
 from typing import Optional, Union
@@ -11,3 +12,11 @@ class ValidationDetail(BaseModel):
 
 class ValidationReport(BaseModel):
     errors: Optional[list[ValidationDetail]] = None
+
+class PandasDelimeter(Enum):
+    COMMA = ","
+    SEMICOLON = ";"
+    TAB = "\t"
+    PIPE = "|"
+    COLON = ":"
+    SPACE = " "

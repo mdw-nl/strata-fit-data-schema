@@ -1,0 +1,264 @@
+schema:
+  pydantic:
+    PatientData:
+      pat_ID:
+        type: "str"
+        example: "SE1"
+      Visit_months_from_diagnosis:
+        type: "float"
+        example: 12.34
+        ge: 0
+      Age:
+        type: "int"
+        example: 45
+        ge: 18
+        le: 110
+      Sex:
+        type: "int"
+        ge: 0
+        le: 1
+        example: 1
+      RF_positivity:
+        type: "int"
+        ge: 0
+        le: 1
+        example: 1
+      anti_CCP:
+        type: "int"
+        ge: 0
+        le: 1
+        example: 0
+      DAS28:
+        type: "float"
+        example: 2.75
+        ge: 0
+      Pat_global:
+        type: "float"
+        example: 70.0
+        ge: 0
+        le: 100
+      Pain:
+        type: "float"
+        example: 65.0
+        ge: 0
+        le: 100
+      Ph_global:
+        type: "float"
+        example: 75.0
+        ge: 0
+        le: 100
+      CRP:
+        type: "float"
+        example: 1.2
+        ge: 0
+      ESR:
+        type: "int"
+        example: 20
+        ge: 0
+      SJC28:
+        type: "int"
+        example: 4
+        ge: 0
+        le: 28
+      TJC28:
+        type: "int"
+        example: 6
+        ge: 0
+        le: 28
+      csDMARD1:
+        type: "Optional[int]"
+        ge: 0
+        le: 5
+        example: 1
+      csDMARD2:
+        type: "Optional[int]"
+        ge: 0
+        le: 5
+        example: 2
+      csDMARD3:
+        type: "Optional[int]"
+        ge: 0
+        le: 5
+        example: 3
+      conc_MTX_dose:
+        type: "Optional[float]"
+        example: 15.0
+        ge: 0
+      N_prev_csDMARD:
+        type: "int"
+        example: 2
+        ge: 0
+      bDMARD:
+        type: "Optional[int]"
+        ge: 1
+        le: 5
+        example: 3
+      N_prev_bDMARD:
+        type: "Optional[int]"
+        example: 1
+        ge: 0
+      tsDMARD:
+        type: "Optional[int]"
+        ge: 1
+        le: 4
+        example: 2
+      N_prev_tsDMARD:
+        type: "Optional[int]"
+        example: 1
+        ge: 0
+      GC:
+        type: "Optional[int]"
+        ge: 0
+        le: 1
+        example: 1
+      GC_type:
+        type: "Optional[int]"
+        ge: 1
+        le: 4
+        example: 2
+      GC_dose:
+        type: "Optional[float]"
+        example: 5.0
+        ge: 0
+      eq5d:
+        type: "Optional[float]"
+        example: 0.85
+        ge: 0
+      HAQ:
+        type: "Optional[float]"
+        example: 1.25
+        ge: 0
+        le: 3
+      Year_diagnosis:
+        type: "int"
+        example: 2015
+        ge: 2010
+      month_diagnosis:
+        type: "int"
+        example: 6
+        ge: 0
+        le: 12
+      Symptom_duration:
+        type: "float"
+        example: 12.5
+        ge: 0
+
+  error_messages:
+    pat_ID:
+      - type: value_error.invalid_format
+        message: "Patient ID must be in the format SE1, SE2, etc."
+    Visit_months_from_diagnosis:
+      - type: value_error.number.not_ge
+        message: "Visit months from diagnosis must be a number greater than or equal to 0."
+    Age:
+      - type: value_error.number.not_ge
+        message: "Age must be at least 18 years."
+      - type: value_error.number.not_le
+        message: "Age must be less than or equal to 110 years."
+    Sex:
+      - type: value_error.number.not_ge
+        message: "Sex must be 0 (male) or 1 (female)."
+      - type: value_error.number.not_le
+        message: "Sex must be 0 (male) or 1 (female)."
+    RF_positivity:
+      - type: value_error.number.not_ge
+        message: "RF Positivity must be 0 (negative) or 1 (positive)."
+      - type: value_error.number.not_le
+        message: "RF Positivity must be 0 (negative) or 1 (positive)."
+    anti_CCP:
+      - type: value_error.number.not_ge
+        message: "anti-CCP Positivity must be 0 (negative) or 1 (positive)."
+      - type: value_error.number.not_le
+        message: "anti-CCP Positivity must be 0 (negative) or 1 (positive)."
+    DAS28:
+      - type: value_error.number.not_ge
+        message: "DAS28-ESR must be 0 or higher."
+    Pat_global:
+      - type: value_error.number.not_ge
+        message: "Patient global score must be at least 0."
+      - type: value_error.number.not_le
+        message: "Patient global score must be at most 100."
+    Pain:
+      - type: value_error.number.not_ge
+        message: "Patient pain score must be at least 0."
+      - type: value_error.number.not_le
+        message: "Patient pain score must be at most 100."
+    Ph_global:
+      - type: value_error.number.not_ge
+        message: "Physician global score must be at least 0."
+      - type: value_error.number.not_le
+        message: "Physician global score must be at most 100."
+    CRP:
+      - type: value_error.number.not_ge
+        message: "CRP must be a number greater than or equal to 0, with one decimal point."
+    ESR:
+      - type: value_error.number.not_ge
+        message: "ESR must be a whole number greater than or equal to 0."
+    SJC28:
+      - type: value_error.number.not_ge
+        message: "SJC28 must be at least 0."
+      - type: value_error.number.not_le
+        message: "SJC28 must be at most 28."
+    TJC28:
+      - type: value_error.number.not_ge
+        message: "TJC28 must be at least 0."
+      - type: value_error.number.not_le
+        message: "TJC28 must be at most 28."
+    csDMARD1:
+      - type: value_error.number.not_ge
+        message: "Current csDMARD type must be one of the following: 0 (none), 1 (methotrexate), 2 (sulfasalazine), 3 (antimalarials), 4 (leflunomide), 5 (other)."
+      - type: value_error.number.not_le
+        message: "Current csDMARD type must be one of the following: 0 (none), 1 (methotrexate), 2 (sulfasalazine), 3 (antimalarials), 4 (leflunomide), 5 (other)."
+    csDMARD2:
+      - type: value_error.number.not_ge
+        message: "Current csDMARD type must be one of the following: 0 (none), 1 (methotrexate), 2 (sulfasalazine), 3 (antimalarials), 4 (leflunomide), 5 (other)."
+      - type: value_error.number.not_le
+        message: "Current csDMARD type must be one of the following: 0 (none), 1 (methotrexate), 2 (sulfasalazine), 3 (antimalarials), 4 (leflunomide), 5 (other)."
+    csDMARD3:
+      - type: value_error.number.not_ge
+        message: "Current csDMARD type must be one of the following: 0 (none), 1 (methotrexate), 2 (sulfasalazine), 3 (antimalarials), 4 (leflunomide), 5 (other)."
+      - type: value_error.number.not_le
+        message: "Current csDMARD type must be one of the following: 0 (none), 1 (methotrexate), 2 (sulfasalazine), 3 (antimalarials), 4 (leflunomide), 5 (other)."
+    conc_MTX_dose:
+      - type: value_error.number.not_ge
+        message: "Methotrexate dose must be a number greater than or equal to 0, with one decimal point."
+    N_prev_csDMARD:
+      - type: value_error.number.not_ge
+        message: "Number of previous csDMARDs must be a number greater than or equal to 0."
+    bDMARD:
+      - type: value_error.number.not_ge
+        message: "Current bDMARD type must be one of the following: 1 (anti-TNF), 2 (anti-IL6), 3 (rituximab), 4 (abatacept), 5 (anti-IL1)."
+      - type: value_error.number.not_le
+        message: "Current bDMARD type must be one of the following: 1 (anti-TNF), 2 (anti-IL6), 3 (rituximab), 4 (abatacept), 5 (anti-IL1)."
+    N_prev_bDMARD:
+      - type: value_error.number.not_ge
+        message: "Number of previous bDMARDs must be a number greater than or equal to 0."
+    tsDMARD:
+      - type: value_error.number.not_ge
+        message: "Current tsDMARD type must be one of the following: 1 (tofa), 2 (bari), 3 (upa), 4 (filgo)."
+      - type: value_error.number.not_le
+        message: "Current tsDMARD type must be one of the following: 1 (tofa), 2 (bari), 3 (upa), 4 (filgo)."
+    N_prev_tsDMARD:
+      - type: value_error.number.not_ge
+        message: "Number of previous tsDMARDs must be a number greater than or equal to 0."
+    GC:
+      - type: value_error.number.not_ge
+        message: "Concomitant GCs must be 0 (no) or 1 (yes)."
+      - type: value_error.number.not_le
+        message: "Concomitant GCs must be 0 (no) or 1 (yes)."
+    GC_type:
+      - type: value_error.number.not_ge
+        message: "Type of concomitant GCs must be one of the following: 1 (prednisolone), 2 (betamethasone), 3 (dexamethasone), 4 (other)."
+      - type: value_error.number.not_le
+        message: "Type of concomitant GCs must be one of the following: 1 (prednisolone), 2 (betamethasone), 3 (dexamethasone), 4 (other)."
+    GC_dose:
+      - type: value_error.number.not_ge
+        message: "Dose of concomitant GCs must be a number greater than or equal to 0, with one decimal point."
+    eq5d:
+      - type: value_error.number.not_ge
+        message: "EQ5D must be a number greater than or equal to 0."
+    HAQ:
+      - type: value_error.number.not_ge
+        message: "HAQ score must be between 0 and 3, using specific values: 0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.75, 0.88, 1.0, 1.13, 1.25, 1.38, 1.5, 1.63, 1.75, 1.88, 2.0, 2.13, 2.25, 2.63, 2.75, 2.88, 3.0."
+      - type: value_error.number.not_le
+        message: "HAQ score must be between 0 and 3, using specific values: 0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.75, 0.88, 1.0, 1.13, 1.25, 1.38, 1.5, 1.63, 1.75, 1.88, 2.0, 2.13, 2.25, 2.63, 2.75, 2.88, 3.0."
