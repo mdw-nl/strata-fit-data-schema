@@ -1,22 +1,25 @@
+# app.py
 from functools import lru_cache
 from fastapi import FastAPI, Response, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse, FileResponse
 import pandas as pd
 import io
 import os
+import asyncio
+import uvicorn
 
 from config.config import settings
 from schema import ValidationReport
 import logic
 
-app = FastAPI(
+fastapi_app = FastAPI(
     title=settings.openapi.title,
     description=settings.openapi.description,
     version=settings.openapi.version,
     contact=settings.openapi.contact
 )
 
-@app.get("/settings", tags=["Settings"])
+@fastapi_app.get("/settings", tags=["Settings"])
 def get_settings():
     settings_file_path = settings.openapi.settings_path
     if os.path.exists(settings_file_path):
@@ -28,7 +31,7 @@ def get_settings():
 def get_models():
     return logic.load_data_models_from_settings()
 
-@app.post("/validate", tags=["Validation"])
+@fastapi_app.post("/validate", tags=["Validation"])
 async def validate_csv_file(file: UploadFile = File(...), models: dict = Depends(get_models)):
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="Invalid file format. Please upload a CSV file.")
@@ -47,3 +50,17 @@ async def validate_csv_file(file: UploadFile = File(...), models: dict = Depends
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Import the FastHTML app
+from frontend import app as frontend_app
+
+# Combine FastAPI and FastHTML apps
+@fastapi_app.on_event("startup")
+async def startup_event():
+    config = uvicorn.Config(frontend_app, port=5001, host="0.0.0.0", loop="asyncio")
+    server = uvicorn.Server(config)
+    loop = asyncio.get_event_loop()
+    loop.create_task(server.serve())
+
+# Serve the FastAPI app
+if __name__ == "__main__":
+    uvicorn.run(fastapi_app, host="0.0.0.0", port=8001)

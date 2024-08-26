@@ -5,3 +5,6 @@ data/
 # psi specific
 .psi-ignore
 report.md
+
+# fasthtml
+.sesskey
