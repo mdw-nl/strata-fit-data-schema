@@ -20,7 +20,8 @@ app = FastAPI(
 def get_settings():
     settings_file_path = settings.openapi.settings_path
     if os.path.exists(settings_file_path):
-        return FileResponse(settings_file_path)
+        with open(settings_file_path, 'r') as settings_file:
+            return Response(content=settings_file.read(), media_type="application/x-yaml")
     else:
         return Response(content="Settings file not found.", status_code=404)
     
@@ -28,10 +29,10 @@ def get_settings():
 def get_schema():
     schema_file_path = settings.openapi.schema_path
     if os.path.exists(schema_file_path):
-        return FileResponse(schema_file_path)
+        with open(schema_file_path, 'r') as schema_file:
+            return Response(content=schema_file.read(), media_type="application/x-yaml")
     else:
         return Response(content="Data Schema file not found.", status_code=404)
-
 
 @lru_cache
 def get_models():
