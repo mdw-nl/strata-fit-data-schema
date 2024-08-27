@@ -1,66 +1,87 @@
 # STRATA-FIT Data Validation App
 
 ## Project Description
-The Strata-Fit Data Validation Application is a FastAPI-based tool designed to ensure the quality and integrity of CSV data files containing clinical information about patients with rheumatoid arthritis (RA). This application leverages a Pydantic model (PatientData) to validate the data against a predefined schema ensuring it meets specific criteria, such as data type, value range, and required fields.
+The STRATA-FIT Data Validation App is a FastAPI-based tool designed to validate CSV data files containing clinical information about patients with rheumatoid arthritis (RA). The validation is performed against a [customizable YAML schema](/config/schema.yaml), allowing users to enforce specific data quality and integrity rules.
 
 The application supports file uploads through an API endpoint where users can submit their CSV files to be validated. Errors and discrepancies are reported back in a user-friendly format, making it easier for clinicians and researchers to identify and correct data issues.
 
 ## Diagrams
 ### Component Diagram
 ![app](docs/app.png)
-### Patient Data Interactions
-![patient data](docs/patient_data.png)
 
-## Usage
+## Usage Instructions
 
 [![Watch the usage guide video](docs/loom-video-thumbnail.png)](https://www.loom.com/share/df44944e2711460a921164e201261044)
 
+### Running the Application
 
-### 1. Development Mode
-To run the application locally, follow these steps:
+#### Dockerized Application
 
-#### Step 1: Install Dependencies
-Ensure Python 3.10+ is installed, then install required dependencies:
-```bash
-pip install -r requirements.txt
-```
+Ensure you have a docker daemon installed. The easiest option is to download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-#### Step 2: Run the Application
-Use the following command to start the FastAPI server:
+To run the application in a Docker container with custom configurations (`config/`):
 
-```bash
-uvicorn app:app --reload
-```
-The application will be available at http://localhost:8000.
+1. **Pull the Docker Image**:
+   ```bash
+   docker pull ghcr.io/mdw-nl/strata-fit-data-val:latest
+   ```
 
-#### Step 3: Interact with the API
-Access the API through a web browser or use tools like curl or Postman to upload CSV files for validation:
+2. **Run the Docker Container**: 
+    
+    2.1. Using regular configuration:
+    ```bash
+    docker run --rm -p 8000:8000 ghcr.io/mdw-nl/strata-fit-data-val:latest
+    ```
 
-```bash
-curl -F 'file=@path_to_your_file.csv' http://localhost:8000/validate
-```
+    2.2. Mount your custom configuration directory to the container:
+    ```bash
+    docker run --rm -p 8000:8000 -v $(pwd)/config:/app/config ghcr.io/mdw-nl/strata-fit-data-val:latest
+    ```
+    This command maps the local `config/` directory to `/app/config` within the container (with `-v $(pwd)/config:/app/config`), ensuring your custom settings are used.
 
-### 2. Dockerized Application
-To run the application in a Docker container:
+3. **Access the Application**: Visit http://localhost:8000/docs to interact with the API.
 
-#### Step 1: Pull the Docker Image from the Registry
-Pull the latest docker image named strata-fit-data-val:
+#### Uploading Custom YAML Schema
 
-```bash
-docker pull ghcr.io/mdw-nl/strata-fit-data-val
-```
+To use your own data validation schema:
 
-#### Step 2: Run the Docker Container
-Start a container named `strata-fit-data-validator` mapping the port `8000` inside the container to port `8080` on your host:
+1. **Edit the `schema.yaml` File**: Modify the `config/schema.yaml` file with your custom data validation rules.
 
-```bash
-docker run --rm --name strata-fit-data-validator -p 8080:8000 ghcr.io/mdw-nl/strata-fit-data-val
-```
-The application will be available at http://localhost:8080/docs.
+2. **Mount the Configuration Directory**: Ensure your modified `config/` directory is correctly mounted when running the Docker container:
+    ```bash
+    docker run --rm -p 8000:8000 -v $(pwd)/config:/app/config ghcr.io/mdw-nl/strata-fit-data-val:latest
+    ```
 
-#### Step 3: Interact with the API
-Access the API through a [web browser](http://localhost:8080/docs) or use tools like curl or Postman to upload CSV files for validation:
+3. **Check Your Schema**: You can verify the current schema by accessing the `/schema` endpoint at http://localhost:8000/docs or with the following command:
+    ```bash
+    curl http://localhost:8000/schema
+    ```
 
-```bash
-curl -F 'file=@path_to_your_file.csv' http://localhost:8080/validate
-```
+### Development Mode
+For local development:
+
+1. **Install Dependencies**: Ensure Python 3.10+ is installed, then install required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. **Run the Application**: Start the FastAPI server with Uvicorn
+    ```bash
+    uvicorn app:app --reload
+    ```
+
+3. Interact with the API
+    Access the API through a [web browser](http://localhost:8000) or use tools like curl or Postman to upload CSV files for validation:
+
+    ```bash
+    curl -F 'file=@path_to_your_file.csv' http://localhost:8000/validate
+    ```
+
+### API Endpoints
+
+* `/validate`: Upload and validate your CSV file.
+* `/settings`: Access the current application settings.
+* `/schema`: Access the current data schema.
+
+## Additional Resources
+For more detailed development guidelines, please refer to the [DEV.md](DEV.md) file.
