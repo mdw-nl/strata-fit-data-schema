@@ -30,3 +30,6 @@ openapi:
         name: MDW Support Team
         url: https://www.medicaldataworks.nl/contact
         email: info@medicaldataworks.nl
+
+logging:
+    level: INFO

@@ -4,11 +4,14 @@ FROM python:3.10-slim
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the application files, excluding the config directory
-COPY . /app
+# Copy only the requirements file to install dependencies first
+COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code to /app
+COPY . /app
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
@@ -16,5 +19,5 @@ EXPOSE 8000
 # Define environment variable to store the mode in which the app runs
 ENV MODE=production
 
-# Run app.py when the container launches using gunicorn as the WSGI server
-CMD ["gunicorn", "app:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+# Run main.py from the api directory when the container launches using gunicorn as the WSGI server
+CMD ["gunicorn", "api.main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]

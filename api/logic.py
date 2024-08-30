@@ -4,7 +4,7 @@ from datetime import date
 from pydantic import BaseModel, create_model, ValidationError
 from typing import Optional # needed for Optional schema fields
 
-from schema import ValidationDetail
+from .schema import ValidationDetail
 from config.config import settings
 
 
