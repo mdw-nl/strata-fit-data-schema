@@ -1,17 +1,39 @@
+import logging
 import pandas as pd
 import numpy as np
 from datetime import date
-from pydantic import BaseModel, create_model, ValidationError
+from pydantic import BaseModel, Field, create_model, ValidationError
 from typing import Optional # needed for Optional schema fields
 
 from .schema import ValidationDetail
 from config.config import settings
 
+logger = logging.getLogger(__name__)
 
 def load_data_models_from_settings():
     models = {}
     for model_name, fields in settings.schema.pydantic.items():
-        model_fields = {field_name: (eval(field["type"]), ...) for field_name, field in fields.items()}
+        logger.debug(f'Fields to be uploaded for "{model_name}":\n{fields}\n')
+        model_fields = {}
+        for field_name, field in fields.items():
+            field_type = eval(field["type"])
+            constraints = {}
+            # Check and add constraints if they exist
+            if "ge" in field:
+                constraints["ge"] = field["ge"]
+            if "le" in field:
+                constraints["le"] = field["le"]
+            if "min_length" in field:
+                constraints["min_length"] = field["min_length"]
+            if "max_length" in field:
+                constraints["max_length"] = field["max_length"]
+            if "regex" in field:
+                constraints["regex"] = field["regex"]
+
+            # Create a pydantic Field with constraints
+            model_fields[field_name] = (field_type, Field(..., **constraints))
+        
+        logger.debug(f'Uploaded model fields for "{model_name}":\n{model_fields}\n')
         models[model_name] = create_model(model_name, **model_fields)
     return models
 
