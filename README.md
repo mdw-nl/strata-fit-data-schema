@@ -1,7 +1,7 @@
 # STRATA-FIT Data Validation App
 
 ## Project Description
-The STRATA-FIT Data Validation App is a FastAPI-based tool designed to validate CSV data files containing clinical information about patients with rheumatoid arthritis (RA). The validation is performed against a [customizable YAML schema](/config/schema.yaml), allowing users to enforce specific data quality and integrity rules.
+The STRATA-FIT Data Validation App is a FastAPI-based tool designed to validate CSV data files containing clinical information about patients with rheumatoid arthritis (RA). The validation is performed against a [customizable YAML schema](/config/schema.yaml), with support for pydantic constraints like `ge`, `le`, and [more](https://docs.pydantic.dev/latest/concepts/fields/#field-aliases:~:text=Alias%20concepts%20page.-,Numeric%20Constraints,Here%27s%20an%20example%3A,-from%20pydantic%20import), allowing users to enforce specific data quality and integrity rules.
 
 The application supports file uploads through an API endpoint where users can submit their CSV files to be validated. Errors and discrepancies are reported back in a user-friendly format, making it easier for clinicians and researchers to identify and correct data issues.
 
@@ -67,7 +67,7 @@ For local development:
 
 2. **Run the Application**: Start the FastAPI server with Uvicorn
     ```bash
-    uvicorn app:app --reload
+    uvicorn api.main:app --reload
     ```
 
 3. Interact with the API

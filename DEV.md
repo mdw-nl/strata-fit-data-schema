@@ -1,8 +1,10 @@
 # Development Guidelines
 
 ## Project Structure
-- **app.py**: Main FastAPI application.
-- **logic.py**: Contains core validation logic.
+- **api/main.py**: Main FastAPI application.
+- **api/logic.py**: Contains core validation logic, including the dynamic model creation with pydantic constraints.
+- **api/logs.py**: Contains logging configurations.
+- **api/utils.py**: Contains utility functions.
 - **config/**: Configuration files (YAML format).
 
 ## Key Dependencies
@@ -17,12 +19,12 @@
     ```
 - **Run the Server**:
     ```bash
-    uvicorn app:app --reload
+    uvicorn api.main:app --reload
     ```
 
 ## Modifying Schema or Settings
 - Modify `config/schema.yaml` or `config/settings.yaml` as needed.
-- Testing Changes: Restart the server to apply changes.
+- Testing Changes: Ensure the new constraints in the `config/schema.yaml` are correctly applied by testing the validation process. Restart the server to apply changes.
 
 ## Docker Workflow
 - **Building the Image**:
