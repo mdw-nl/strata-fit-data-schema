@@ -4,6 +4,7 @@ schema:
       pat_ID:
         type: "str"
         example: "SE1"
+        pattern: "^[A-Z]{2}\\d+$"  # Regex for two uppercase letters followed by an integer
       Visit_months_from_diagnosis:
         type: "float"
         example: 12.34
