@@ -6,79 +6,79 @@ schema:
         example: "SE1"
         pattern: "^[A-Z]{2}\\d+$"  # Regex for two uppercase letters followed by an integer
       Visit_months_from_diagnosis:
-        type: "float"
+        type: "Optional[float]"
         example: 12.34
         ge: 0
-      Age:
-        type: "int"
+      Age_diagnosis:
+        type: "Optional[int]"
         example: 45
         ge: 18
         le: 110
       Sex:
-        type: "int"
+        type: "Optional[int]"
         ge: 0
         le: 1
         example: 1
       RF_positivity:
-        type: "int"
+        type: "Optional[int]"
         ge: 0
         le: 1
         example: 1
       anti_CCP:
-        type: "int"
+        type: "Optional[int]"
         ge: 0
         le: 1
         example: 0
       DAS28:
-        type: "float"
+        type: "Optional[float]"
         example: 2.75
         ge: 0
       Pat_global:
-        type: "float"
+        type: "Optional[float]"
         example: 70.0
         ge: 0
         le: 100
       Pain:
-        type: "float"
+        type: "Optional[float]"
         example: 65.0
         ge: 0
         le: 100
       Ph_global:
-        type: "float"
+        type: "Optional[float]"
         example: 75.0
         ge: 0
         le: 100
       CRP:
-        type: "float"
+        type: "Optional[float]"
         example: 1.2
         ge: 0
       ESR:
-        type: "int"
+        type: "Optional[int]"
         example: 20
         ge: 0
       SJC28:
-        type: "int"
+        type: "Optional[int]"
         example: 4
         ge: 0
         le: 28
       TJC28:
-        type: "int"
+        type: "Optional[int]"
         example: 6
         ge: 0
         le: 28
       csDMARD1:
         type: "Optional[int]"
-        ge: 0
+        ge: 1
         le: 5
         example: 1
       csDMARD2:
         type: "Optional[int]"
-        ge: 0
+        ge: 1
         le: 5
         example: 2
       csDMARD3:
         type: "Optional[int]"
-        ge: 0
+        ge: 1
         le: 5
         example: 3
       conc_MTX_dose:
@@ -109,7 +109,6 @@ schema:
         ge: 0
       GC:
         type: "Optional[int]"
-        ge: 0
         le: 1
         example: 1
       GC_type:
@@ -133,7 +132,7 @@ schema:
       Year_diagnosis:
         type: "int"
         example: 2015
-        ge: 2010
+        ge: 1930
       month_diagnosis:
         type: "int"
         example: 6
