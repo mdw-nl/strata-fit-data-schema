@@ -130,16 +130,16 @@ schema:
         ge: 0
         le: 3
       Year_diagnosis:
-        type: "int"
+        type: "Optional[int]"
         example: 2015
         ge: 1930
       month_diagnosis:
-        type: "int"
+        type: "Optional[int]"
         example: 6
         ge: 0
         le: 12
       Symptom_duration:
-        type: "float"
+        type: "Optional[float]"
         example: 12.5
         ge: 0
 
@@ -150,7 +150,7 @@ schema:
     Visit_months_from_diagnosis:
       - type: value_error.number.not_ge
         message: "Visit months from diagnosis must be a number greater than or equal to 0."
-    Age:
+    Age_diagnosis:
       - type: value_error.number.not_ge
         message: "Age must be at least 18 years."
       - type: value_error.number.not_le
